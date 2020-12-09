@@ -1,5 +1,6 @@
 .content {
   display: flex;
+  min-height: 100%;
 }
 
 .left-side {
@@ -12,9 +13,23 @@
 
 .right-side {
   flex-grow: 1;
+  min-width: 250px;
 }
 
-.mindmap-container {
+#mindmap-container-wrapper {
+  overflow: hidden;
+  height: 100%;
+  border: 2px solid darkgrey;
+}
+
+#mindmap-container {
+  height: 100%;
+}
+
+.jsmind-inner {
+  overflow: initial !important;
+  width: initial;
+  height: initial;
 }
 
 .group-btn {

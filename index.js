@@ -27,6 +27,8 @@ let options = {
 };
 let mindmap = jsMind.show(options);
 
+panzoom(document.getElementById("mindmap-container"));
+
 marked.setOptions({
   pedantic: false,
 });
@@ -197,6 +199,7 @@ function editedText(text) {
   };
 
   mindmap.show(mindmapJson);
+  mindmap.resize();
 }
 
 function takeScreenshot() {

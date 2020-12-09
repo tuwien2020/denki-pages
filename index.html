@@ -11,6 +11,7 @@
     src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
     defer
   ></script>
+  <script src="https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js"></script>
   <script src="index.js" defer></script>
 </head>
 <body>
@@ -97,7 +98,9 @@
     </div>
 
     <div class="right-side">
-      <div id="mindmap-container"></div>
+      <div id="mindmap-container-wrapper">
+        <div id="mindmap-container"></div>
+      </div>
     </div>
   </div>
 </body>

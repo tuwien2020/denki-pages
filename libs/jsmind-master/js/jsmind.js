@@ -2403,6 +2403,9 @@
             if (client_h < min_height) { client_h = min_height; }
             this.size.w = client_w;
             this.size.h = client_h;
+
+            this.size.w = min_width;
+            this.size.h = min_height;
         },
 
         init_nodes_size: function (node) {
