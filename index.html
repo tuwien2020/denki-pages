@@ -16,16 +16,35 @@
 <body>
   <div class="content">
     <div class="left-side">
-      <textarea id="input-area" placeholder="Type Markdown here"></textarea> <br />
-           
+      <textarea id="input-area" placeholder="Type Markdown here"></textarea>
+      
+      <br />
+      <br />
+      
       <div class="group">
-        <div class="group-item-1">
-          <button onclick="takeScreenshot()" class="from-btn">Take screenshot</button>
+        <div class="group-item">
+          <button onclick="takeScreenshot()" class="group-btn">Take screenshot</button>
         </div>
 
-        <div class="group-item-2">
-          <input type="color" id="colorPicker" name="colorPicker" >
-          <label for="colorPicker">Pick color</label>
+        <br />
+
+        <div class="group-item">
+          <input type="color" id="colorPickerMain" name="colorPickerMain" onchange="pickColor(event, 'main')" class="group-picker">
+          <label for="colorPickerMain">Pick main color</label>
+        </div>
+
+        <br />
+
+        <div class="group-item">
+          <input type="color" id="colorPickerSub" name="colorPickerSub" onchange="pickColor(event, 'sub')" class="group-picker" >
+          <label for="colorPickerSub">Pick secondary color</label>
+        </div>
+
+        <br />
+
+        <div class="group-item">
+          <input type="color" id="colorPickerLink" name="colorPickerLink" onchange="pickColor(event, 'link')" class="group-picker" >
+          <label for="colorPickerLink">Pick link color</label>
         </div>
       </div>
     </div>

@@ -2,6 +2,9 @@
  * @type {HTMLTextAreaElement}
  */
 const inputTextareaElement = document.getElementById("input-area");
+const inputColorMain = document.getElementById("colorPickerMain");
+const inputColorSub = document.getElementById("colorPickerSub");
+const inputColorLink = document.getElementById("colorPickerLink");
 
 let options = {
   container: "mindmap-container",
@@ -25,7 +28,7 @@ function editedText(text) {
   localStorage["input-text"] = text;
 
   const parsed = marked.lexer(text);
-  console.log(parsed);
+  // console.log(parsed);
 
   let data = {
     id: "fake-root",
@@ -59,7 +62,7 @@ function editedText(text) {
 
   function colorLink(tokens, node) {
     if (hasLink(tokens)) {
-      node["background-color"] = "#f1c232";
+      node["background-color"] = localStorage["color-link"] ? localStorage["color-link"] :  "#f1c232";
     }
   }
 
@@ -167,11 +170,9 @@ function editedText(text) {
   }
 
   // Color the top node
-  data["background-color"] = "#0b5394";
-  data.children.forEach((c) => (c["background-color"] = "#9900ff"));
-
-  console.log(data);
-
+  data["background-color"] = localStorage["color-main"] ? localStorage["color-main"] : "#0b5394";
+  data.children.forEach((c) => (c["background-color"] = localStorage["color-sub"] ? localStorage["color-sub"] : "#9900ff"));  
+  
   let mindmapJson = {
     meta: {
       name: "DENKI-Mindmap",
@@ -186,6 +187,21 @@ function editedText(text) {
 function takeScreenshot() {
   if (mindmap) {
     mindmap.screenshot.shootDownload();
+  }
+}
+
+function pickColor(event, type){
+  // Picker-Main: Themengebiet
+  // Picker-Sub: Unterthemen
+  // Picker-Link: Links
+  if(event && event.target && type){
+    let {value} = event.target;
+
+    if(type === "main") localStorage["color-main"] = value;
+    if(type === "sub") localStorage["color-sub"] = value;
+    if(type === "link") localStorage["color-link"] = value;
+
+    editedText(inputTextareaElement.value);
   }
 }
 
@@ -215,3 +231,6 @@ inputTextareaElement.addEventListener("input", () =>
 );
 
 editedText(inputTextareaElement.value);
+inputColorMain.value = localStorage["color-main"];
+inputColorSub.value = localStorage["color-sub"];
+inputColorLink.value = localStorage["color-link"];
