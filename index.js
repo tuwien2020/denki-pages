@@ -40,15 +40,25 @@ function editedText(text) {
   function tokensToString(tokens) {
     return tokens
       .map((t) => {
-        if (t.type == "text") return t.text;
-        else if (t.type == "link")
+        if (t.type == "text") {
+          if (t.tokens) {
+            return tokensToString(t.tokens);
+          } else {
+            return t.text;
+          }
+        } else if (t.type == "link") {
           return `<a href="${t.href.replace(/"/g, "%22")}">${t.text}</a>`;
+        }
       })
       .join("");
   }
 
+  function hasLink(tokens) {
+    return tokens?.some((t) => t.type == "link" || hasLink(t.tokens));
+  }
+
   function colorLink(tokens, node) {
-    if (tokens.some((t) => t.type == "link")) {
+    if (hasLink(tokens)) {
       node["background-color"] = "#f1c232";
     }
   }
@@ -179,7 +189,26 @@ function takeScreenshot() {
   }
 }
 
-inputTextareaElement.value = localStorage["input-text"];
+inputTextareaElement.value =
+  localStorage["input-text"] ??
+  `# Themengebiet
+## Unterthema A
+- Liste
+- mit 
+  - mehreren
+    - verschachtelten
+- Elementen
+
+## Unterthema B
+- Liste
+- [Link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+## Unterthema C
+- Liste
+
+## Unterthema D
+- Liste
+`;
 
 inputTextareaElement.addEventListener("input", () =>
   editedText(inputTextareaElement.value)
