@@ -1,14 +1,27 @@
-/**
- * @type {HTMLTextAreaElement}
- */
+/** @type {HTMLTextAreaElement} */
 const inputTextareaElement = document.getElementById("input-area");
-const inputColorMain = document.getElementById("colorPickerMain");
-const inputColorSub = document.getElementById("colorPickerSub");
-const inputColorLink = document.getElementById("colorPickerLink");
+/** @type {HTMLSelectElement} */
+const inputColorTheme = document.getElementById("color-theme");
+const inputColorTopic = document.getElementById("color-picker-topic");
+const inputColorSub = document.getElementById("color-picker-sub");
+const inputColorLink = document.getElementById("color-picker-link");
+
+if (!localStorage.getItem("color-topic")) {
+  localStorage.setItem("color-topic", "#0b5394");
+}
+if (!localStorage.getItem("color-sub")) {
+  localStorage.setItem("color-sub", "#9900ff");
+}
+if (!localStorage.getItem("color-link")) {
+  localStorage.setItem("color-link", "#f1c232");
+}
+if (!localStorage.getItem("color-theme")) {
+  localStorage.setItem("color-theme", "belizehole");
+}
 
 let options = {
   container: "mindmap-container",
-  theme: "belizehole",
+  theme: localStorage.getItem("color-theme"),
   editable: false,
   support_html: true,
 };
@@ -25,7 +38,7 @@ marked.setOptions({
 function editedText(text) {
   // TODO: Url support
   // (Read only URL and stuff)
-  localStorage["input-text"] = text;
+  localStorage.setItem("input-text", text);
 
   const parsed = marked.lexer(text);
   // console.log(parsed);
@@ -62,7 +75,7 @@ function editedText(text) {
 
   function colorLink(tokens, node) {
     if (hasLink(tokens)) {
-      node["background-color"] = localStorage["color-link"] ? localStorage["color-link"] :  "#f1c232";
+      node["background-color"] = localStorage.getItem("color-link");
     }
   }
 
@@ -170,9 +183,11 @@ function editedText(text) {
   }
 
   // Color the top node
-  data["background-color"] = localStorage["color-main"] ? localStorage["color-main"] : "#0b5394";
-  data.children.forEach((c) => (c["background-color"] = localStorage["color-sub"] ? localStorage["color-sub"] : "#9900ff"));  
-  
+  data["background-color"] = localStorage.getItem("color-topic");
+  data.children.forEach(
+    (c) => (c["background-color"] = localStorage.getItem("color-sub"))
+  );
+
   let mindmapJson = {
     meta: {
       name: "DENKI-Mindmap",
@@ -190,23 +205,33 @@ function takeScreenshot() {
   }
 }
 
-function pickColor(event, type){
-  // Picker-Main: Themengebiet
+function pickTheme() {
+  mindmap.set_theme(inputColorTheme.value);
+  localStorage.setItem("color-theme", inputColorTheme.value);
+}
+
+function pickColor(event, type) {
+  // Picker-Topic: Themengebiet
   // Picker-Sub: Unterthemen
   // Picker-Link: Links
-  if(event && event.target && type){
-    let {value} = event.target;
+  if (event && event.target && type) {
+    let { value } = event.target;
 
-    if(type === "main") localStorage["color-main"] = value;
-    if(type === "sub") localStorage["color-sub"] = value;
-    if(type === "link") localStorage["color-link"] = value;
+    if (type === "topic") localStorage.setItem("color-topic", value);
+    if (type === "sub") localStorage.setItem("color-sub", value);
+    if (type === "link") localStorage.setItem("color-link", value);
 
     editedText(inputTextareaElement.value);
   }
 }
 
+inputColorTheme.value = localStorage.getItem("color-theme");
+inputColorTopic.value = localStorage.getItem("color-topic");
+inputColorSub.value = localStorage.getItem("color-sub");
+inputColorLink.value = localStorage.getItem("color-link");
+
 inputTextareaElement.value =
-  localStorage["input-text"] ??
+  localStorage.getItem("input-text") ??
   `# Themengebiet
 ## Unterthema A
 - Liste
@@ -231,6 +256,3 @@ inputTextareaElement.addEventListener("input", () =>
 );
 
 editedText(inputTextareaElement.value);
-inputColorMain.value = localStorage["color-main"];
-inputColorSub.value = localStorage["color-sub"];
-inputColorLink.value = localStorage["color-link"];
