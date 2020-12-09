@@ -20,6 +20,8 @@ marked.setOptions({
  * @param {string} text
  */
 function editedText(text) {
+  // TODO: Url support
+  // (Read only URL and stuff)
   localStorage["input-text"] = text;
 
   const parsed = marked.lexer(text);
@@ -152,7 +154,6 @@ function editedText(text) {
     i++
   ) {
     data.children[i].direction = "left";
-    console.log(data.children[i]);
   }
 
   // Color the top node
@@ -170,7 +171,6 @@ function editedText(text) {
   };
 
   mindmap.show(mindmapJson);
-  mindmap;
 }
 
 function takeScreenshot() {

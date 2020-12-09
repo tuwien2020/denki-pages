@@ -4,6 +4,7 @@
 .left-side {
 }
 .right-side {
+  flex-grow: 1;
 }
 
 .mindmap-container {
