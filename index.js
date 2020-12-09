@@ -66,6 +66,12 @@ function editedText(text) {
           }
         } else if (t.type == "link") {
           return `<a href="${t.href.replace(/"/g, "%22")}">${t.text}</a>`;
+        } else if (t.type == "strong") {
+          return `<b>${tokensToString(t.tokens)}</b>`;
+        } else if (t.type == "em") {
+          return `<em>${tokensToString(t.tokens)}</em>`;
+        } else if (t.type == "del") {
+          return `<del>${tokensToString(t.tokens)}</del>`;
         }
       })
       .join("");
