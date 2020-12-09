@@ -1,11 +1,36 @@
 .content {
   display: flex;
 }
+
 .left-side {
+  min-width: 250px;
 }
+
+.left-side textarea {
+  min-width: 250px;
+  min-height: 25px;
+}
+
 .right-side {
   flex-grow: 1;
 }
 
 .mindmap-container {
+}
+
+.group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.group-item-1 button {
+  height: 25px;
+}
+
+.group-item-2 input[type="color"] {
+  max-height: 21px;
+}
+
+.group-item-2 label {
+  max-height: 25px;
 }
