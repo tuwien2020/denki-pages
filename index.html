@@ -7,11 +7,15 @@
   <script src="./libs/jsmind-master/js/jsmind.js" defer></script>
   <script src="./libs/jsmind-master/js/jsmind.draggable.js" defer></script>
   <script src="./libs/jsmind-master/js/jsmind.screenshot.js" defer></script>
+  <script src="./libs/jsoncrush/JSONCrush.min.js" defer></script>
   <script
     src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
     defer
   ></script>
-  <script src="https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js"></script>
+  <script
+    src="https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js"
+    defer
+  ></script>
   <script src="index.js" defer></script>
 </head>
 <body>
@@ -26,6 +30,9 @@
         <div class="group-item">
           <button onclick="takeScreenshot()" class="group-btn">
             Take screenshot
+          </button>
+          <button onclick="getReadonlyLink()" class="group-btn">
+            Share Link
           </button>
         </div>
 

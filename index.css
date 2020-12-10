@@ -39,3 +39,7 @@
 .group-picker {
   height: 21px;
 }
+
+.hidden {
+  display: none;
+}

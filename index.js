@@ -6,22 +6,53 @@ const inputColorTopic = document.getElementById("color-picker-topic");
 const inputColorSub = document.getElementById("color-picker-sub");
 const inputColorLink = document.getElementById("color-picker-link");
 
-if (!localStorage.getItem("color-topic")) {
-  localStorage.setItem("color-topic", "#0b5394");
+let storageProvider = localStorage;
+
+const searchParameters = new URL(document.location).searchParams;
+if (searchParameters.get("readonly")) {
+  [...document.querySelectorAll(".left-side")].forEach((e) =>
+    e.classList.add("hidden")
+  );
 }
-if (!localStorage.getItem("color-sub")) {
-  localStorage.setItem("color-sub", "#9900ff");
+try {
+  if (searchParameters.get("data")) {
+    const data = JSON.parse(
+      JSONUncrush(decodeURIComponent(searchParameters.get("data")))
+    );
+    storageProvider = {
+      getItem(key) {
+        return data[key];
+      },
+      setItem(key, value) {
+        data[key] = value;
+      },
+    };
+  }
+} catch (e) {
+  console.error(e);
 }
-if (!localStorage.getItem("color-link")) {
-  localStorage.setItem("color-link", "#f1c232");
+
+if (!storageProvider.getItem("color-topic")) {
+  storageProvider.setItem("color-topic", "#0b5394");
 }
-if (!localStorage.getItem("color-theme")) {
-  localStorage.setItem("color-theme", "belizehole");
+if (!storageProvider.getItem("color-sub")) {
+  storageProvider.setItem("color-sub", "#9900ff");
 }
+if (!storageProvider.getItem("color-link")) {
+  storageProvider.setItem("color-link", "#f1c232");
+}
+if (!storageProvider.getItem("color-theme")) {
+  storageProvider.setItem("color-theme", "belizehole");
+}
+
+inputColorTheme.value = storageProvider.getItem("color-theme");
+inputColorTopic.value = storageProvider.getItem("color-topic");
+inputColorSub.value = storageProvider.getItem("color-sub");
+inputColorLink.value = storageProvider.getItem("color-link");
 
 let options = {
   container: "mindmap-container",
-  theme: localStorage.getItem("color-theme"),
+  theme: storageProvider.getItem("color-theme"),
   editable: false,
   support_html: true,
 };
@@ -38,12 +69,10 @@ marked.setOptions({
  * @param {string} text
  */
 function editedText(text) {
-  // TODO: Url support
-  // (Read only URL and stuff)
-  localStorage.setItem("input-text", text);
+  storageProvider.setItem("input-text", text);
 
   const parsed = marked.lexer(text);
-  // console.log(parsed);
+  console.log(parsed);
 
   let data = {
     id: "fake-root",
@@ -72,6 +101,8 @@ function editedText(text) {
           return `<em>${tokensToString(t.tokens)}</em>`;
         } else if (t.type == "del") {
           return `<del>${tokensToString(t.tokens)}</del>`;
+        } else if (t.type == "codespan") {
+          return `<code style="white-space:pre-wrap;">${t.text}</code>`;
         }
       })
       .join("");
@@ -83,7 +114,7 @@ function editedText(text) {
 
   function colorLink(tokens, node) {
     if (hasLink(tokens)) {
-      node["background-color"] = localStorage.getItem("color-link");
+      node["background-color"] = storageProvider.getItem("color-link");
     }
   }
 
@@ -191,9 +222,9 @@ function editedText(text) {
   }
 
   // Color the top node
-  data["background-color"] = localStorage.getItem("color-topic");
+  data["background-color"] = storageProvider.getItem("color-topic");
   data.children.forEach(
-    (c) => (c["background-color"] = localStorage.getItem("color-sub"))
+    (c) => (c["background-color"] = storageProvider.getItem("color-sub"))
   );
 
   let mindmapJson = {
@@ -216,7 +247,7 @@ function takeScreenshot() {
 
 function pickTheme() {
   mindmap.set_theme(inputColorTheme.value);
-  localStorage.setItem("color-theme", inputColorTheme.value);
+  storageProvider.setItem("color-theme", inputColorTheme.value);
 }
 
 function pickColor(event, type) {
@@ -226,21 +257,35 @@ function pickColor(event, type) {
   if (event && event.target && type) {
     let { value } = event.target;
 
-    if (type === "topic") localStorage.setItem("color-topic", value);
-    if (type === "sub") localStorage.setItem("color-sub", value);
-    if (type === "link") localStorage.setItem("color-link", value);
+    if (type === "topic") storageProvider.setItem("color-topic", value);
+    if (type === "sub") storageProvider.setItem("color-sub", value);
+    if (type === "link") storageProvider.setItem("color-link", value);
 
     editedText(inputTextareaElement.value);
   }
 }
 
-inputColorTheme.value = localStorage.getItem("color-theme");
-inputColorTopic.value = localStorage.getItem("color-topic");
-inputColorSub.value = localStorage.getItem("color-sub");
-inputColorLink.value = localStorage.getItem("color-link");
+function getReadonlyLink() {
+  const url = new URL(document.location);
+  url.searchParams.set("readonly", "true");
+  url.searchParams.set(
+    "data",
+    JSONCrush(
+      JSON.stringify({
+        "color-theme": storageProvider.getItem("color-theme"),
+        "color-topic": storageProvider.getItem("color-topic"),
+        "color-sub": storageProvider.getItem("color-sub"),
+        "color-link": storageProvider.getItem("color-link"),
+        "input-text": storageProvider.getItem("input-text"),
+      })
+    )
+  );
+
+  prompt("Shareable Link", url);
+}
 
 inputTextareaElement.value =
-  localStorage.getItem("input-text") ??
+  storageProvider.getItem("input-text") ??
   `# Themengebiet
 ## Unterthema A
 - Liste
