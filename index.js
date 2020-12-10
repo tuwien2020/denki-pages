@@ -13,6 +13,10 @@ if (searchParameters.get("readonly")) {
   [...document.querySelectorAll(".left-side")].forEach((e) =>
     e.classList.add("hidden")
   );
+
+  [...document.querySelectorAll(".right-side")].forEach((e) =>
+    e.classList.add("full-height")
+  );
 }
 try {
   if (searchParameters.get("data")) {
@@ -72,7 +76,7 @@ function editedText(text) {
   storageProvider.setItem("input-text", text);
 
   const parsed = marked.lexer(text);
-  console.log(parsed);
+  //console.log(parsed);
 
   let data = {
     id: "fake-root",
