@@ -107,6 +107,8 @@ function editedText(text) {
           return `<del>${tokensToString(t.tokens)}</del>`;
         } else if (t.type == "codespan") {
           return `<code style="white-space:pre-wrap;">${t.text}</code>`;
+        } else if (t.type == "html") {
+          return t.raw;
         }
       })
       .join("");
