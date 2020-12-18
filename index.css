@@ -22,6 +22,10 @@
   border: 2px solid darkgrey;
 }
 
+#mindmap-container-wrapper:hover {
+  cursor: move;
+}
+
 #mindmap-container {
   height: 100%;
 }
