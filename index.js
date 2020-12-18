@@ -294,18 +294,17 @@ inputTextareaElement.value =
   storageProvider.getItem("input-text") ??
   `# Themengebiet
 ## Unterthema A
+- [Markdown Tutorial](https://commonmark.org/help/)
+
+## Unterthema B
+- Liste
+
+## Unterthema C
 - Liste
 - mit 
   - mehreren
     - verschachtelten
 - Elementen
-
-## Unterthema B
-- Liste
-- [Link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-
-## Unterthema C
-- Liste
 
 ## Unterthema D
 - Liste
