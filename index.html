@@ -1,113 +1,13 @@
 <!DOCTYPE html>
-<head>
-  <meta charset="utf-8" />
-  <title>DENKI Page</title>
-  <link rel="stylesheet" href="index.css" />
-  <link rel="stylesheet" href="./libs/jsmind-master/style/jsmind.css" />
-  <script src="./libs/jsmind-master/js/jsmind.js" defer></script>
-  <script src="./libs/jsmind-master/js/jsmind.draggable.js" defer></script>
-  <script src="./libs/jsmind-master/js/jsmind.screenshot.js" defer></script>
-  <script src="./libs/jsoncrush/JSONCrush.min.js" defer></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/marked@1.2.7/marked.min.js"
-    defer
-  ></script>
-  <script
-    src="https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js"
-    defer
-  ></script>
-  <script src="index.js" defer></script>
-</head>
-<body>
-  <div class="content">
-    <div class="left-side">
-      <textarea id="input-area" placeholder="Type Markdown here"></textarea>
-
-      <br />
-      <br />
-
-      <div class="group">
-        <div class="group-item">
-          <button onclick="takeScreenshot()" class="group-btn">
-            Take screenshot
-          </button>
-          <button onclick="getReadonlyLink()" class="group-btn">
-            Share Link
-          </button>
-        </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            <select id="color-theme" onchange="pickTheme()">
-              <option value="">default</option>
-              <option value="primary">primary</option>
-              <option value="warning">warning</option>
-              <option value="danger">danger</option>
-              <option value="success">success</option>
-              <option value="info">info</option>
-              <option value="greensea">greensea</option>
-              <option value="nephrite">nephrite</option>
-              <option value="belizehole">belizehole</option>
-              <option value="wisteria">wisteria</option>
-              <option value="asphalt">asphalt</option>
-              <option value="orange">orange</option>
-              <option value="pumpkin">pumpkin</option>
-              <option value="pomegranate">pomegranate</option>
-              <option value="clouds">clouds</option>
-              <option value="asbestos">asbestos</option>
-            </select>
-            Theme
-          </label>
-        </div>
-
-        <div class="group-item">
-          <label>
-            <input
-              id="color-picker-topic"
-              type="color"
-              onchange="pickColor(event, 'topic')"
-              class="group-picker"
-            />
-            Topic Color
-          </label>
-        </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            <input
-              id="color-picker-sub"
-              type="color"
-              onchange="pickColor(event, 'sub')"
-              class="group-picker"
-            />
-            Subtopic Color
-          </label>
-        </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            <input
-              id="color-picker-link"
-              type="color"
-              onchange="pickColor(event, 'link')"
-              class="group-picker"
-            />
-            Link Color
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="right-side">
-      <div id="mindmap-container-wrapper">
-        <div id="mindmap-container"></div>
-      </div>
-    </div>
-  </div>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DENKI Pages</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
