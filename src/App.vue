@@ -6,7 +6,16 @@
   </div>
   <div class="content">
     <div class="left-side" :class="{ hidden: isReadonly }">
-      <textarea v-model="inputText" placeholder="Type Markdown here"></textarea>
+      <a href="https://hits.seeyoufarm.com" class="hidden"
+        ><img
+          src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ftuwien2020%2Fdenki-pages&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"
+      /></a>
+
+      <textarea
+        v-model="inputText"
+        placeholder="Type Markdown here"
+        id="input-text-element"
+      ></textarea>
 
       <br />
       <br />
@@ -67,6 +76,15 @@
 
         <div class="group-item">
           <label>
+            <input type="color" v-model="colorsSubSub" class="group-picker" />
+            Sub-Subtopic Color
+          </label>
+        </div>
+
+        <br />
+
+        <div class="group-item">
+          <label>
             <input type="color" v-model="colorsLink" class="group-picker" />
             Link Color
           </label>
@@ -81,13 +99,21 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watchEffect, watch, computed } from "vue";
+import {
+  ref,
+  defineComponent,
+  watchEffect,
+  watch,
+  computed,
+  onMounted,
+} from "vue";
 import { version } from "./../package.json";
 import { Store, useStore } from "./store";
 import Mindmap from "./components/Mindmap.vue";
 // @ts-ignore
 import marked from "marked";
 import { toSvg, toJpeg } from "html-to-image";
+//import { documentToSVG, elementToSVG, inlineResources } from "dom-to-svg";
 
 interface MindmapNode {
   id: string;
@@ -294,24 +320,33 @@ export default defineComponent({
         ".jsmind-inner"
       );
       if (!mindmapElement) return;
-      toJpeg(mindmapElement, { quality: 0.95, backgroundColor: "white" }).then(
-        function (dataUrl) {
-          var link = document.createElement("a");
-          link.download = "my-image-name.jpeg";
-          link.href = dataUrl;
-          link.click();
-        }
-      );
+      toJpeg(mindmapElement, {
+        quality: 0.95,
+        backgroundColor: "white",
+        pixelRatio: window.devicePixelRatio,
+      }).then(function (dataUrl) {
+        var link = document.createElement("a");
+        link.download = `mindmap-${Date.now()}.jpeg`;
+        link.href = dataUrl;
+        link.click();
+      });
 
-      /*const svgDocument = await toSvg(mindmapElement);
-      const svgString = new XMLSerializer().serializeToString(mindmapElement);
-      console.log(svgString);
-*/
-      /*   let link = document.createElement('a');
-    link.download = `mindmap-${Date.now()}.svg`;
-    link.href = svgString;
-    link.click();*/
+      /*
+      const svgDocument = elementToSVG(mindmapElement);
+      await inlineResources(svgDocument.documentElement);
+      const svgString = new XMLSerializer().serializeToString(svgDocument);
+      console.log(svgString);*/
     }
+
+    onMounted(async () => {
+      /*
+      const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        previewStyle: 'tab',
+        height: '500px',
+        initialValue: content
+      });*/
+    });
 
     return {
       version,
@@ -325,6 +360,7 @@ export default defineComponent({
         prompt("Shareable Link", store.getShareableLink()),
       colorsTopic: store.colors.topic,
       colorsSub: store.colors.sub,
+      colorsSubSub: store.colors.subsub,
       colorsLink: store.colors.link,
       colorsTheme: store.colors.theme,
     };

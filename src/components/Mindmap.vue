@@ -7,9 +7,7 @@
 <script lang="ts">
 import { ref, defineComponent, watchEffect, watch, computed } from "vue";
 import panzoom from "panzoom";
-import "./../../libs/jsmind-master/js/jsmind.js";
-import "./../../libs/jsmind-master/js/jsmind.draggable.js";
-import "./../../libs/jsmind-master/style/jsmind.css";
+import "./../../public/libs/jsmind-master/style/jsmind.css";
 
 export default defineComponent({
   components: {},
@@ -71,7 +69,8 @@ export default defineComponent({
 #mindmap-container {
   height: 100%;
 }
-
+</style>
+<style>
 .jsmind-inner {
   overflow: initial !important;
   width: initial;

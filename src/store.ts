@@ -1,18 +1,11 @@
-import {
-  computed,
-  ComputedRef,
-  customRef,
-  ref,
-  Ref,
-  watch,
-  watchEffect,
-} from "vue";
-import { JSONUncrush, JSONCrush } from "../libs/jsoncrush/JSONCrush";
+import { computed, ComputedRef, ref, Ref, watch } from "vue";
+import { JSONUncrush, JSONCrush } from "./libs/jsoncrush/JSONCrush";
 
 export interface Store {
   readonly colors: {
     topic: Ref<string>;
     sub: Ref<string>;
+    subsub: Ref<string>;
     link: Ref<string>;
     theme: Ref<string>;
   };
@@ -35,6 +28,7 @@ export function useStore(): Store {
   const colors = {
     topic: localStorageRef("colors-topic", "#0b5394"),
     sub: localStorageRef("colors-sub", "#9900ff"),
+    subsub: localStorageRef("colors-sub-sub", "#9900ff"),
     link: localStorageRef("colors-link", "#f1c232"),
     theme: localStorageRef("colors-theme", "belizehole"),
   };
@@ -42,22 +36,22 @@ export function useStore(): Store {
   const inputText = localStorageRef(
     "input-text",
     `# Themengebiet
-  ## Unterthema A
-  - [Markdown Tutorial](https://commonmark.org/help/)
-  
-  ## Unterthema B
-  - Liste
-  
-  ## Unterthema C
-  - Liste
-  - mit 
-    - mehreren
-      - verschachtelten
-  - Elementen
-  
-  ## Unterthema D
-  - Liste
-  `
+## Unterthema A
+- [Markdown Tutorial](https://commonmark.org/help/)
+
+## Unterthema B
+- Liste
+
+## Unterthema C
+- Liste
+- mit 
+  - mehreren
+    - verschachtelten
+- Elementen
+
+## Unterthema D
+- Liste
+`
   );
 
   if (hasData.value) {
@@ -75,6 +69,7 @@ export function useStore(): Store {
     colors.theme.value = data?.colors?.theme;
     colors.topic.value = data?.colors?.topic;
     colors.sub.value = data?.colors?.sub;
+    colors.subsub.value = data?.colors?.subsub;
     colors.link.value = data?.colors?.link;
     inputText.value = data?.text;
   }
@@ -104,6 +99,7 @@ export function useStore(): Store {
             theme: colors.theme.value,
             topic: colors.topic.value,
             sub: colors.sub.value,
+            subsub: colors.subsub.value,
             link: colors.link.value,
           },
           text: inputText.value,
