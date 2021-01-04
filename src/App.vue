@@ -285,9 +285,14 @@ function useMarkdownToMindmap() {
 
     // Color the top node
     data["background-color"] = store.colors.topic.value;
-    data.children.forEach(
-      (c) => (c["background-color"] = store.colors.sub.value)
-    );
+    data.children.forEach((c) => {
+      c["background-color"] = store.colors.sub.value;
+      c.children.forEach(
+        (cc) =>
+          (cc["background-color"] =
+            cc["background-color"] ?? store.colors.subsub.value)
+      );
+    });
 
     return {
       meta: {
