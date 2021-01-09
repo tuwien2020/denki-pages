@@ -390,8 +390,8 @@ export default defineComponent({
 
 .content {
   display: flex;
-  height: 100%;
   padding: 24px;
+  flex-grow: 1;
 }
 
 .left-side {
