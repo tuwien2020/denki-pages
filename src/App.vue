@@ -1,8 +1,8 @@
 <template>
   <div id="application">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/"> DENKI Pages - {{ version }} </a>
+    <nav class="navbar header" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand no-min-height">
+          <a class="navbar-item" href="/"> DENKI Pages - {{ version }} </a>
 
         <a
           role="button"
@@ -408,6 +408,11 @@ export default defineComponent({
   background: #f5f5f5;
   box-shadow: 0 1px 5px -1px rgba(0, 0, 0, 0.2);
 }
+
+.no-min-height{
+  min-height: 0px;
+}
+
 .home-link {
   text-decoration: none;
   text-transform: uppercase;
