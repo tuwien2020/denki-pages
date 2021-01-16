@@ -196,12 +196,22 @@
               Link Color
             </label>
           </div>
+
+        </div>
+
+        <br />
+
+        <div class="group-item">
+          <label>
+            <input type="color" v-model="colorsLink" class="group-picker" />
+            Link Color
+          </label>
         </div>
       </div>
+    </div>
 
-      <div class="right-side" :class="{ 'full-height': isReadonly }">
-        <Mindmap :theme="mindmapTheme" :data="mindmapData"></Mindmap>
-      </div>
+    <div class="right-side" :class="{ 'full-height': isReadonly }">
+      <Mindmap :theme="mindmapTheme" :data="mindmapData"></Mindmap>
     </div>
   </div>
 </template>
@@ -511,8 +521,8 @@ export default defineComponent({
 
 .content {
   display: flex;
-  height: 100%;
   padding: 24px;
+  flex-grow: 1;
 }
 
 .left-side {

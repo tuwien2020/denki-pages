@@ -1,6 +1,6 @@
 {
   "name": "denki-pages",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
