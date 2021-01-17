@@ -1,101 +1,112 @@
 <template>
-  <div class="header">
-    <div>
-      <a href="/" class="home-link"> DENKI Pages - {{ version }} </a>
-    </div>
-  </div>
-  <div class="content">
-    <div class="left-side" :class="{ hidden: isReadonly }">
-      <a href="https://hits.seeyoufarm.com" class="hidden"
-        ><img
-          src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ftuwien2020%2Fdenki-pages&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"
-      /></a>
+  <div id="application">
+    <nav class="navbar header" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand no-min-height">
+          <a class="navbar-item" href="/"> DENKI Pages - {{ version }} </a>
 
-      <textarea
-        v-model="inputText"
-        placeholder="Type Markdown here"
-        id="input-text-element"
-      ></textarea>
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    </nav>
 
-      <br />
-      <br />
+    <div class="section is-full-height">
+      <div class="columns is-full-height">
+        <div class="column is-one-fifth menu">
+          <textarea
+            v-model="inputText"
+            placeholder="Type Markdown here"
+            id="input-text-element"
+            class="textarea"
+          ></textarea>
 
-      <div class="group">
-        <div class="group-item controls">
-          <button @click="takeScreenshot()" class="group-btn">
-            Take screenshot
-          </button>
-          <button @click="showShareableLink()" class="group-btn">
-            Share Link
-          </button>
+          <br />
+
+          <div class="group">
+            <div class="group-item controls">
+              <button @click="takeScreenshot()" class="button group-btn">
+                Take screenshot
+              </button>
+              <button @click="showShareableLink()" class="button group-btn">
+                Share Link
+              </button>
+            </div>
+
+            <br />
+
+            <div class="group-item">
+              <label>
+                Theme:
+                <select v-model="mindmapTheme" class="dropDown">
+                  <option value="">default</option>
+                  <option value="primary">primary</option>
+                  <option value="warning">warning</option>
+                  <option value="danger">danger</option>
+                  <option value="success">success</option>
+                  <option value="info">info</option>
+                  <option value="greensea">greensea</option>
+                  <option value="nephrite">nephrite</option>
+                  <option value="belizehole">belizehole</option>
+                  <option value="wisteria">wisteria</option>
+                  <option value="asphalt">asphalt</option>
+                  <option value="orange">orange</option>
+                  <option value="pumpkin">pumpkin</option>
+                  <option value="pomegranate">pomegranate</option>
+                  <option value="clouds">clouds</option>
+                  <option value="asbestos">asbestos</option>
+                </select>
+              </label>
+            </div>
+
+            <br />
+
+            <div class="group-item">
+              <label>
+                <input type="color" v-model="colorsTopic" class="group-picker" />
+                Topic Color
+              </label>
+            </div>
+
+            <br />
+
+            <div class="group-item">
+              <label>
+                <input type="color" v-model="colorsSub" class="group-picker" />
+                Subtopic Color
+              </label>
+            </div>
+
+            <br />
+
+            <div class="group-item">
+              <label>
+                <input type="color" v-model="colorsSubSub" class="group-picker" />
+                Sub-Subtopic Color
+              </label>
+            </div>
+
+            <br />
+
+            <div class="group-item">
+              <label>
+                <input type="color" v-model="colorsLink" class="group-picker" />
+                Link Color
+              </label>
+            </div>
+          </div>
         </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            Theme:
-            <select v-model="mindmapTheme" class="dropDown">
-              <option value="">default</option>
-              <option value="primary">primary</option>
-              <option value="warning">warning</option>
-              <option value="danger">danger</option>
-              <option value="success">success</option>
-              <option value="info">info</option>
-              <option value="greensea">greensea</option>
-              <option value="nephrite">nephrite</option>
-              <option value="belizehole">belizehole</option>
-              <option value="wisteria">wisteria</option>
-              <option value="asphalt">asphalt</option>
-              <option value="orange">orange</option>
-              <option value="pumpkin">pumpkin</option>
-              <option value="pomegranate">pomegranate</option>
-              <option value="clouds">clouds</option>
-              <option value="asbestos">asbestos</option>
-            </select>
-          </label>
-        </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            <input type="color" v-model="colorsTopic" class="group-picker" />
-            Topic Color
-          </label>
-        </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            <input type="color" v-model="colorsSub" class="group-picker" />
-            Subtopic Color
-          </label>
-        </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            <input type="color" v-model="colorsSubSub" class="group-picker" />
-            Sub-Subtopic Color
-          </label>
-        </div>
-
-        <br />
-
-        <div class="group-item">
-          <label>
-            <input type="color" v-model="colorsLink" class="group-picker" />
-            Link Color
-          </label>
+        <div class="column is-four-fifths mindmap" :class="{ 'full-height': isReadonly }">
+          <Mindmap :theme="mindmapTheme" :data="mindmapData"></Mindmap>
         </div>
       </div>
-    </div>
-
-    <div class="right-side" :class="{ 'full-height': isReadonly }">
-      <Mindmap :theme="mindmapTheme" :data="mindmapData"></Mindmap>
     </div>
   </div>
 </template>
@@ -376,12 +387,32 @@ export default defineComponent({
 </script>
 
 <style scoped>
+#application {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.columns {
+    display: flex;
+    align-items: stretch;
+}
+
+.is-full-height{
+  height: 100%;
+}
+
 .header {
   height: 1em;
   padding: 12px 24px;
   background: #f5f5f5;
   box-shadow: 0 1px 5px -1px rgba(0, 0, 0, 0.2);
 }
+
+.no-min-height{
+  min-height: 0px;
+}
+
 .home-link {
   text-decoration: none;
   text-transform: uppercase;
@@ -411,14 +442,6 @@ export default defineComponent({
 .right-side {
   flex-grow: 1;
   min-width: 250px;
-}
-
-.group-btn {
-  background: none;
-  padding: 5px 15px;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 1px;
 }
 
 .group-picker {
