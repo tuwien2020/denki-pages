@@ -1,111 +1,118 @@
 <template>
-  <div id="application">
-    <nav class="navbar header" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand no-min-height">
-          <a class="navbar-item" href="/"> DENKI Pages - {{ version }} </a>
+  <nav class="navbar header" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand no-min-height">
+      <a class="navbar-item" href="/"> DENKI Pages - {{ version }} </a>
 
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-    </nav>
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  </nav>
 
-    <div class="section is-full-height">
-      <div class="columns is-full-height">
-        <div class="column is-one-fifth menu">
-          <textarea
-            v-model="inputText"
-            placeholder="Type Markdown here"
-            id="input-text-element"
-            class="textarea"
-          ></textarea>
+  <div class="section is-full-height">
+    <div class="columns is-full-height">
+      <div class="column is-one-fifth menu">
+        <textarea
+          v-model="inputText"
+          placeholder="Type Markdown here"
+          id="input-text-element"
+          class="textarea"
+        ></textarea>
+
+        <br />
+
+        <div class="group">
+          <div class="group-item controls">
+            <button @click="takeScreenshot()" class="button group-btn">
+              Take screenshot
+            </button>
+            <button @click="getShareableLink()" class="button group-btn">
+              Share Link
+              <div
+                class="button-message"
+                :class="{ show: showCopyToClipboard }"
+              >
+                Copied to clipboard
+              </div>
+            </button>
+          </div>
 
           <br />
 
-          <div class="group">
-            <div class="group-item controls">
-              <button @click="takeScreenshot()" class="button group-btn">
-                Take screenshot
-              </button>
-              <button @click="showShareableLink()" class="button group-btn">
-                Share Link
-              </button>
-            </div>
+          <div class="group-item">
+            <label>
+              Theme:
+              <select v-model="mindmapTheme" class="dropDown">
+                <option value="">default</option>
+                <option value="primary">primary</option>
+                <option value="warning">warning</option>
+                <option value="danger">danger</option>
+                <option value="success">success</option>
+                <option value="info">info</option>
+                <option value="greensea">greensea</option>
+                <option value="nephrite">nephrite</option>
+                <option value="belizehole">belizehole</option>
+                <option value="wisteria">wisteria</option>
+                <option value="asphalt">asphalt</option>
+                <option value="orange">orange</option>
+                <option value="pumpkin">pumpkin</option>
+                <option value="pomegranate">pomegranate</option>
+                <option value="clouds">clouds</option>
+                <option value="asbestos">asbestos</option>
+              </select>
+            </label>
+          </div>
 
-            <br />
+          <br />
 
-            <div class="group-item">
-              <label>
-                Theme:
-                <select v-model="mindmapTheme" class="dropDown">
-                  <option value="">default</option>
-                  <option value="primary">primary</option>
-                  <option value="warning">warning</option>
-                  <option value="danger">danger</option>
-                  <option value="success">success</option>
-                  <option value="info">info</option>
-                  <option value="greensea">greensea</option>
-                  <option value="nephrite">nephrite</option>
-                  <option value="belizehole">belizehole</option>
-                  <option value="wisteria">wisteria</option>
-                  <option value="asphalt">asphalt</option>
-                  <option value="orange">orange</option>
-                  <option value="pumpkin">pumpkin</option>
-                  <option value="pomegranate">pomegranate</option>
-                  <option value="clouds">clouds</option>
-                  <option value="asbestos">asbestos</option>
-                </select>
-              </label>
-            </div>
+          <div class="group-item">
+            <label>
+              <input type="color" v-model="colorsTopic" class="group-picker" />
+              Topic Color
+            </label>
+          </div>
 
-            <br />
+          <br />
 
-            <div class="group-item">
-              <label>
-                <input type="color" v-model="colorsTopic" class="group-picker" />
-                Topic Color
-              </label>
-            </div>
+          <div class="group-item">
+            <label>
+              <input type="color" v-model="colorsSub" class="group-picker" />
+              Subtopic Color
+            </label>
+          </div>
 
-            <br />
+          <br />
 
-            <div class="group-item">
-              <label>
-                <input type="color" v-model="colorsSub" class="group-picker" />
-                Subtopic Color
-              </label>
-            </div>
+          <div class="group-item">
+            <label>
+              <input type="color" v-model="colorsSubSub" class="group-picker" />
+              Sub-Subtopic Color
+            </label>
+          </div>
 
-            <br />
+          <br />
 
-            <div class="group-item">
-              <label>
-                <input type="color" v-model="colorsSubSub" class="group-picker" />
-                Sub-Subtopic Color
-              </label>
-            </div>
-
-            <br />
-
-            <div class="group-item">
-              <label>
-                <input type="color" v-model="colorsLink" class="group-picker" />
-                Link Color
-              </label>
-            </div>
+          <div class="group-item">
+            <label>
+              <input type="color" v-model="colorsLink" class="group-picker" />
+              Link Color
+            </label>
           </div>
         </div>
-        <div class="column is-four-fifths mindmap" :class="{ 'full-height': isReadonly }">
-          <Mindmap :theme="mindmapTheme" :data="mindmapData"></Mindmap>
-        </div>
+      </div>
+      <div
+        class="column is-four-fifths mindmap"
+        :class="{ 'full-height': isReadonly }"
+      >
+        <Mindmap :theme="mindmapTheme" :data="mindmapData"></Mindmap>
       </div>
     </div>
   </div>
@@ -366,6 +373,8 @@ export default defineComponent({
       });*/
     });
 
+    const showCopyToClipboard = ref(false);
+
     return {
       version,
       mindmapData,
@@ -374,31 +383,29 @@ export default defineComponent({
       inputText: store.inputText,
       isReadonly: store.isReadonly,
       takeScreenshot,
-      showShareableLink: () =>
-        prompt("Shareable Link", store.getShareableLink()),
+      getShareableLink: () => {
+        navigator.clipboard.writeText(store.getShareableLink());
+        showCopyToClipboard.value = true;
+        setTimeout(() => (showCopyToClipboard.value = false), 1000);
+      },
       colorsTopic: store.colors.topic,
       colorsSub: store.colors.sub,
       colorsSubSub: store.colors.subsub,
       colorsLink: store.colors.link,
       colorsTheme: store.colors.theme,
+      showCopyToClipboard,
     };
   },
 });
 </script>
 
 <style scoped>
-#application {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 .columns {
-    display: flex;
-    align-items: stretch;
+  display: flex;
+  align-items: stretch;
 }
 
-.is-full-height{
+.is-full-height {
   height: 100%;
 }
 
@@ -409,39 +416,13 @@ export default defineComponent({
   box-shadow: 0 1px 5px -1px rgba(0, 0, 0, 0.2);
 }
 
-.no-min-height{
+.no-min-height {
   min-height: 0px;
-}
-
-.home-link {
-  text-decoration: none;
-  text-transform: uppercase;
-  color: var(--sexy-text-color);
-}
-
-.content {
-  display: flex;
-  padding: 24px;
-  flex-grow: 1;
-}
-
-.left-side {
-  margin-right: 20px;
-}
-
-.left-side textarea {
-  min-width: 250px;
-  min-height: 100px;
 }
 
 .controls {
   display: flex;
   justify-content: space-around;
-}
-
-.right-side {
-  flex-grow: 1;
-  min-width: 250px;
 }
 
 .group-picker {
@@ -470,5 +451,20 @@ export default defineComponent({
 
 .full-height {
   min-height: 90vh;
+}
+
+.button-message {
+  position: absolute;
+  bottom: -10px;
+  left: 5px;
+  font-size: 0.8em;
+  transition: bottom 0.1s ease-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.button-message.show {
+  bottom: -20px;
+  opacity: 1;
 }
 </style>
