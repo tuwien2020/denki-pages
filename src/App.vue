@@ -133,6 +133,8 @@ import Mindmap from "./components/Mindmap.vue";
 // @ts-ignore
 import marked from "marked";
 import { toSvg, toJpeg } from "html-to-image";
+import MarkdownEditor from "inscrybmde";
+import "inscrybmde/dist/inscrybmde.min.css";
 //import { documentToSVG, elementToSVG, inlineResources } from "dom-to-svg";
 
 interface MindmapNode {
@@ -364,13 +366,11 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      /*
-      const editor = new toastui.Editor({
-        el: document.querySelector('#editor'),
-        previewStyle: 'tab',
-        height: '500px',
-        initialValue: content
-      });*/
+      const editor = new MarkdownEditor({
+        element: document.getElementById("input-text-element")!,
+        spellChecker: false,
+        toolbar: ["guide"], // https://github.com/Inscryb/inscryb-markdown-editor#toolbar-icons
+      });
     });
 
     const showCopyToClipboard = ref(false);
