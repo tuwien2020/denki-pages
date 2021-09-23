@@ -2,6 +2,8 @@
 
 [View it in action here](https://tuwien2020.github.io/denki-pages/)
 
+[Tell me if you're using it and found a bug or have a suggestion](https://github.com/tuwien2020/denki-pages/issues)
+
 ## Developer Info
 
 1. Clone the repository
